@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
             translate_text = convert(text, Layouts.EN)
         else:
             translate_text = convert(text, Layouts.RU)
-        self.output_field.setPlainText(text)
+        self.output_field.setPlainText(translate_text)
 
     def change_language(self):
         if(self.language == 'ru'):
