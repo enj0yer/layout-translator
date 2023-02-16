@@ -1,6 +1,8 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QTextEdit, QPushButton, QHBoxLayout, QVBoxLayout, QPlainTextEdit
 import sys
 
+from logic import convert, Languages
+
 style_text_field = """
 QPlainTextEdit {
     border: 1px solid rgb(37, 39, 49);
@@ -33,6 +35,7 @@ QPushButton:pressed {
     background-color: rgb(230, 230, 230);
 }
 """
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -90,9 +93,9 @@ class MainWindow(QMainWindow):
     def getText(self):
         text = self.input_field.toPlainText()
         if self.language == 'ru':
-            translate_text = convert(text, Layouts.EN)
+            translate_text = convert(text, Languages.EN)
         else:
-            translate_text = convert(text, Layouts.RU)
+            translate_text = convert(text, Languages.RU)
         self.output_field.setPlainText(translate_text)
 
     def change_language(self):
