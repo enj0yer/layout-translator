@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-RU_EN = {
+__RU_EN = {
     "q": "й",
     "w": "ц",
     "e": "у",
@@ -39,39 +39,43 @@ RU_EN = {
 }
 
 
-class Layouts(Enum):
-    RU = "RU"
-    EN = "EN"
+class Languages(Enum):
+    RU = "russian"
+    EN = "english"
 
 
-def convert(wrong_str: str, to_layout: Layouts):
+def convert(wrong_str: str, current_language: Languages):
     result_string = ""
-    match to_layout:
-        case Layouts.RU:
-            result_string = __convert_string(wrong_str, RU_EN, True)
-        case Layouts.EN:
-            result_string = __convert_string(wrong_str, RU_EN, False)
+    match current_language:
+        case Languages.EN:
+            result_string = __convert_string(wrong_str, __RU_EN, True)
+        case Languages.RU:
+            result_string = __convert_string(wrong_str, __RU_EN, False)
 
     return result_string
 
 
 def __convert_string(wrong_str: str, layout: dict[str, str], values_main: bool = True) -> str:
-    default = layout
-    reverted = revert_dict(layout)
+    needed_layout = None
+    if values_main:
+        needed_layout = layout
+    else:
+        needed_layout = __revert_dict(layout)
     temp = ""
     for i in range(len(wrong_str)):
-        if values_main:
-            temp += (wrong_str[i] if not default.keys().__contains__(wrong_str[i]) else default.get(wrong_str[i])) if wrong_str[i].islower() else (wrong_str[i] if not default.keys().__contains__(wrong_str[i].lower()) else default.get(wrong_str[i].lower())).upper()
-        else:
-            temp += (wrong_str[i] if not reverted.keys().__contains__(wrong_str[i]) else reverted.get(wrong_str[i])) if wrong_str[i].islower() else (wrong_str[i] if not reverted.keys().__contains__(wrong_str[i].lower()) else reverted.get(wrong_str[i].lower())).upper()
+        temp += (wrong_str[i] if not needed_layout.keys().__contains__(wrong_str[i]) else needed_layout.get(wrong_str[i])) if wrong_str[i].islower() else (wrong_str[i] if not needed_layout.keys().__contains__(wrong_str[i].lower()) else needed_layout.get(wrong_str[i].lower())).upper()
 
     return temp
 
 
-def revert_dict(_dict: dict[str, str]) -> dict[str, str]:
+def __revert_dict(_dict: dict[str, str]) -> dict[str, str]:
     reverted = {}
 
     for k, v in _dict.items():
         reverted[v] = k
 
     return reverted
+
+
+def detect_language(source_str: str) -> Languages:
+    pass
