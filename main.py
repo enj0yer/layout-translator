@@ -1,8 +1,6 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QTextEdit, QPushButton, QHBoxLayout, QVBoxLayout, QPlainTextEdit
 import sys
 
-from logic import convert, Layouts
-
 style_text_field = """
 QPlainTextEdit {
     border: 1px solid rgb(37, 39, 49);
@@ -108,3 +106,4 @@ app = QApplication(sys.argv)
 window = MainWindow()
 window.show()
 app.exec()
+
