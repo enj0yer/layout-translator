@@ -104,7 +104,7 @@ class MainWindow(QMainWindow):
     """Получение текста из формы"""
     def getText(self):
         text = self.input_field.toPlainText()
-        if self.language == 'ru':
+        if self.language == 'RU':
             translate_text = convert(text, Languages.EN)
         else:
             translate_text = convert(text, Languages.RU)
