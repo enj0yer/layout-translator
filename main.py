@@ -105,7 +105,7 @@ class MainWindow(QMainWindow):
     def getText(self):
         text = self.input_field.toPlainText()
         if self.language == 'RU':
-            translate_text = convert(text, Layouts.EN)
+            translate_text = convert(text, Languages.EN)
         else:
             translate_text = convert(text, Languages.RU)
         self.output_field.setPlainText(translate_text)
