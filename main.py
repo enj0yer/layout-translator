@@ -67,12 +67,13 @@ class MainWindow(QMainWindow):
 
         """Поле с исходным текстом"""
         self.input_field = QPlainTextEdit(self)
-        self.input_field.setFont(QFont(self.families[0]))
+        # self.input_field.setFont(QFont(self.families[0]))
+        
         
 
         """Поле с переведенным текстом"""
         self.output_field = QPlainTextEdit(self)
-        self.output_field.setFont(QFont(self.families[0]))
+        # self.output_field.setFont(QFont(self.families[0]))
         self.output_field.setReadOnly(True)
 
 
