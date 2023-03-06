@@ -14,10 +14,12 @@ QPlainTextEdit {
     border-radius: 5px;
     padding: 10px;
     background-color: rgba(0, 255, 210, 0.5);
+    font: bold 24px;
 }
 
 QPlainTextEdit:hover {
     border: 1px solid rgb(48, 50, 62);
+    font: bold 24px;
 }
 
 QPushButton {
@@ -25,7 +27,7 @@ QPushButton {
     background-color: rgb(0, 0, 0);
     border-width: 2px;
     border-radius: 10px;
-    font: bold 14px;
+    font: bold 24px;
     min-width: 10em;
     padding: 10px;
     color: rgb(0, 90, 97);
@@ -48,7 +50,7 @@ class MainWindow(QMainWindow):
         self.language = 'Английский -> Русский'
 
         """Получаем шрифт"""
-        self.families = QFontDatabase.applicationFontFamilies(id)
+        self.families = QFontDatabase.applicationFontFamilies(fontfamily_id)
 
         self.setWindowTitle('Translator')
         self.setStyleSheet(style_text_field)
@@ -119,7 +121,7 @@ class MainWindow(QMainWindow):
         self.output_field.clear()
 
 app = QApplication(sys.argv)
-id = QFontDatabase.addApplicationFont('./valorax-font/cyberfall_cyrillic.otf')
+fontfamily_id = QFontDatabase.addApplicationFont('./crystal/crystal.otf')
 window = MainWindow()
 window.show()
 app.exec()
