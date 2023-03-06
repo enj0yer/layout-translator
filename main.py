@@ -45,7 +45,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.language = 'Английский <-> Русский'
+        self.language = 'Английский -> Русский'
 
         """Получаем шрифт"""
         self.families = QFontDatabase.applicationFontFamilies(id)
@@ -67,6 +67,7 @@ class MainWindow(QMainWindow):
         """Поле с исходным текстом"""
         self.input_field = QPlainTextEdit(self)
         self.input_field.setFont(QFont(self.families[0]))
+        self.input_field.textChanged.connect(self.getText)
         
 
         """Поле с переведенным текстом"""
@@ -82,22 +83,13 @@ class MainWindow(QMainWindow):
         layout.addLayout(layout_text)
         layout.addLayout(layout_button)
         
-
-        """Кнопка перевода"""
-        self.hotkey_translate = QShortcut(QKeySequence('Ctrl+Return'), self)
-        self.hotkey_translate.activated.connect(self.getText)
-
-        self.button_translate = QPushButton('Translate')
-        self.button_translate.clicked.connect(self.getText)
-        self.button_translate.setFont(QFont(self.families[0]))
-        layout_button.addWidget(self.button_translate)
  
         """Кнопка очистки"""
-        self.hotkey_clear = QShortcut(QKeySequence('Ctrl+Backspace'), self)
-        self.hotkey_clear.activated.connect(self.cleaf_field)
+        self.hotkey_clear = QShortcut(QKeySequence('Alt+Delete'), self)
+        self.hotkey_clear.activated.connect(self.clear_field)
 
         self.button_clear = QPushButton("Clear")
-        self.button_clear.clicked.connect(self.cleaf_field)
+        self.button_clear.clicked.connect(self.clear_field)
         self.button_clear.setFont(QFont(self.families[0]))
         layout_button.addWidget(self.button_clear)
 
@@ -109,20 +101,20 @@ class MainWindow(QMainWindow):
     """Получение текста из формы"""
     def getText(self):
         text = self.input_field.toPlainText()
-        if self.language == 'Английский <-> Русский':
+        if self.language == 'Английский -> Русский':
             translate_text = convert(text, Languages.EN)
         else:
             translate_text = convert(text, Languages.RU)
         self.output_field.setPlainText(translate_text)
 
     def change_language(self):
-        if(self.language == 'Английский <-> Русский'):
-            self.language = 'Русский <-> Английский'
+        if(self.language == 'Английский -> Русский'):
+            self.language = 'Русский -> Английский'
         else:
-            self.language = 'Английский <-> Русский'
+            self.language = 'Английский -> Русский'
         self.button_language.setText(self.language)
 
-    def cleaf_field(self):
+    def clear_field(self):
         self.input_field.clear()
         self.output_field.clear()
 
