@@ -1,6 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QTextEdit, QPushButton, QHBoxLayout, QVBoxLayout, QPlainTextEdit
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFontDatabase, QFont
+from PyQt6.QtGui import QFontDatabase, QFont, QShortcut, QKeySequence
 import sys
 
 from logic import convert, Languages
@@ -46,7 +45,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.language = 'RU'
+        self.language = 'Английский <-> Русский'
 
         """Получаем шрифт"""
         self.families = QFontDatabase.applicationFontFamilies(id)
@@ -82,17 +81,23 @@ class MainWindow(QMainWindow):
         layout.addLayout(layout_language)
         layout.addLayout(layout_text)
         layout.addLayout(layout_button)
+        
 
         """Кнопка перевода"""
+        self.hotkey_translate = QShortcut(QKeySequence('Ctrl+Return'), self)
+        self.hotkey_translate.activated.connect(self.getText)
+
         self.button_translate = QPushButton('Translate')
         self.button_translate.clicked.connect(self.getText)
         self.button_translate.setFont(QFont(self.families[0]))
         layout_button.addWidget(self.button_translate)
  
         """Кнопка очистки"""
+        self.hotkey_clear = QShortcut(QKeySequence('Ctrl+Backspace'), self)
+        self.hotkey_clear.activated.connect(self.cleaf_field)
+
         self.button_clear = QPushButton("Clear")
-        self.button_clear.clicked.connect(self.input_field.clear)
-        self.button_clear.clicked.connect(self.output_field.clear)
+        self.button_clear.clicked.connect(self.cleaf_field)
         self.button_clear.setFont(QFont(self.families[0]))
         layout_button.addWidget(self.button_clear)
 
@@ -104,18 +109,22 @@ class MainWindow(QMainWindow):
     """Получение текста из формы"""
     def getText(self):
         text = self.input_field.toPlainText()
-        if self.language == 'RU':
+        if self.language == 'Английский <-> Русский':
             translate_text = convert(text, Languages.EN)
         else:
             translate_text = convert(text, Languages.RU)
         self.output_field.setPlainText(translate_text)
 
     def change_language(self):
-        if(self.language == 'RU'):
-            self.language = 'EN'
+        if(self.language == 'Английский <-> Русский'):
+            self.language = 'Русский <-> Английский'
         else:
-            self.language = 'RU'
+            self.language = 'Английский <-> Русский'
         self.button_language.setText(self.language)
+
+    def cleaf_field(self):
+        self.input_field.clear()
+        self.output_field.clear()
 
 app = QApplication(sys.argv)
 id = QFontDatabase.addApplicationFont('./valorax-font/cyberfall_cyrillic.otf')
