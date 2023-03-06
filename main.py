@@ -63,6 +63,8 @@ class MainWindow(QMainWindow):
         """Кнопка смены языка"""
         self.button_language = QPushButton(self.language)
         self.button_language.clicked.connect(self.change_language)
+        self.hotkey_change_language = QShortcut(QKeySequence('Ctrl+r'), self)
+        self.hotkey_change_language.activated.connect(self.change_language)
         self.button_language.setFont(QFont(self.families[0]))
         layout_language.addWidget(self.button_language)
 
@@ -115,6 +117,7 @@ class MainWindow(QMainWindow):
         else:
             self.language = 'Английский -> Русский'
         self.button_language.setText(self.language)
+        self.getText()
 
     def clear_field(self):
         self.input_field.clear()
