@@ -34,7 +34,39 @@ __RU_EN = {
     ",": "б",
     ".": "ю",
     "/": ".",
-    "?": ","
+    "?": ",",
+    "Q": "Й",
+    "W": "Ц",
+    "E": "У",
+    "R": "К",
+    "T": "Е",
+    "Y": "Н",
+    "U": "Г",
+    "I": "Ш",
+    "O": "Щ",
+    "P": "З",
+    "{": "Х",
+    "}": "Ъ",
+    "A": "Ф",
+    "S": "Ы",
+    "D": "В",
+    "F": "А",
+    "G": "П",
+    "H": "Р",
+    "J": "О",
+    "K": "Л",
+    "L": "Д",
+    ":": "Ж",
+    '"': "Э",
+    "Z": "Я",
+    "X": "Ч",
+    "C": "С",
+    "V": "М",
+    "B": "И",
+    "N": "Т",
+    "M": "Ь",
+    "<": "Б",
+    ">": "Ю"
 }
 """Словарь, содержащий в качестве пар ключ-значение пары символов (RU, EN), которые присутствуют в qwerty раскладке на клавиатуре."""
 
@@ -85,7 +117,7 @@ def __convert_string(wrong_str: str, layout: dict[str, str], values_main: bool =
         needed_layout = __revert_dict(layout)
     temp = ""
     for i in range(len(wrong_str)):
-        temp += (wrong_str[i] if not needed_layout.keys().__contains__(wrong_str[i]) else needed_layout.get(wrong_str[i])) if wrong_str[i].islower() else (wrong_str[i] if not needed_layout.keys().__contains__(wrong_str[i].lower()) else needed_layout.get(wrong_str[i].lower())).upper()
+        temp += (wrong_str[i] if not needed_layout.keys().__contains__(wrong_str[i]) else needed_layout.get(wrong_str[i]))
 
     return temp
 
