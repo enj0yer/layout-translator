@@ -3,3 +3,5 @@
 /venv/
 config/hidden.py
 __pycache__/
+*.bat
+/output/

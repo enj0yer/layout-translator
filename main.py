@@ -1,6 +1,5 @@
 from PyQt6.QtWidgets import QApplication, QWidget, QMainWindow, QTextEdit, QPushButton, QHBoxLayout, QVBoxLayout, QPlainTextEdit
-from PyQt6.QtCore import Qt
-from PyQt6.QtGui import QFontDatabase, QFont
+from PyQt6.QtGui import QFontDatabase, QFont, QShortcut, QKeySequence
 import sys
 
 from logic import convert, Languages
@@ -15,10 +14,12 @@ QPlainTextEdit {
     border-radius: 5px;
     padding: 10px;
     background-color: rgba(0, 255, 210, 0.5);
+    font: bold 24px;
 }
 
 QPlainTextEdit:hover {
     border: 1px solid rgb(48, 50, 62);
+    font: bold 24px;
 }
 
 QPushButton {
@@ -26,7 +27,7 @@ QPushButton {
     background-color: rgb(0, 0, 0);
     border-width: 2px;
     border-radius: 10px;
-    font: bold 14px;
+    font: bold 24px;
     min-width: 10em;
     padding: 10px;
     color: rgb(0, 90, 97);
@@ -46,10 +47,10 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
 
-        self.language = 'RU'
+        self.language = 'Английский -> Русский'
 
         """Получаем шрифт"""
-        self.families = QFontDatabase.applicationFontFamilies(id)
+        self.families = QFontDatabase.applicationFontFamilies(fontfamily_id)
 
         self.setWindowTitle('Translator')
         self.setStyleSheet(style_text_field)
@@ -62,6 +63,8 @@ class MainWindow(QMainWindow):
         """Кнопка смены языка"""
         self.button_language = QPushButton(self.language)
         self.button_language.clicked.connect(self.change_language)
+        self.hotkey_change_language = QShortcut(QKeySequence('Ctrl+r'), self)
+        self.hotkey_change_language.activated.connect(self.change_language)
         self.button_language.setFont(QFont(self.families[0]))
         layout_language.addWidget(self.button_language)
 
@@ -69,6 +72,8 @@ class MainWindow(QMainWindow):
         self.input_field = QPlainTextEdit(self)
         # self.input_field.setFont(QFont(self.families[0]))
         
+        self.input_field.setFont(QFont(self.families[0]))
+        self.input_field.textChanged.connect(self.getText)
         
 
         """Поле с переведенным текстом"""
@@ -83,17 +88,14 @@ class MainWindow(QMainWindow):
         layout.addLayout(layout_language)
         layout.addLayout(layout_text)
         layout.addLayout(layout_button)
-
-        """Кнопка перевода"""
-        self.button_translate = QPushButton('Translate')
-        self.button_translate.clicked.connect(self.getText)
-        self.button_translate.setFont(QFont(self.families[0]))
-        layout_button.addWidget(self.button_translate)
+        
  
         """Кнопка очистки"""
+        self.hotkey_clear = QShortcut(QKeySequence('Alt+Delete'), self)
+        self.hotkey_clear.activated.connect(self.clear_field)
+
         self.button_clear = QPushButton("Clear")
-        self.button_clear.clicked.connect(self.input_field.clear)
-        self.button_clear.clicked.connect(self.output_field.clear)
+        self.button_clear.clicked.connect(self.clear_field)
         self.button_clear.setFont(QFont(self.families[0]))
         layout_button.addWidget(self.button_clear)
 
@@ -105,21 +107,26 @@ class MainWindow(QMainWindow):
     """Получение текста из формы"""
     def getText(self):
         text = self.input_field.toPlainText()
-        if self.language == 'RU':
+        if self.language == 'Английский -> Русский':
             translate_text = convert(text, Languages.EN)
         else:
             translate_text = convert(text, Languages.RU)
         self.output_field.setPlainText(translate_text)
 
     def change_language(self):
-        if(self.language == 'RU'):
-            self.language = 'EN'
+        if(self.language == 'Английский -> Русский'):
+            self.language = 'Русский -> Английский'
         else:
-            self.language = 'RU'
+            self.language = 'Английский -> Русский'
         self.button_language.setText(self.language)
+        self.getText()
+
+    def clear_field(self):
+        self.input_field.clear()
+        self.output_field.clear()
 
 app = QApplication(sys.argv)
-id = QFontDatabase.addApplicationFont('./valorax-font/cyberfall_cyrillic.otf')
+fontfamily_id = QFontDatabase.addApplicationFont('./crystal/crystal.otf')
 window = MainWindow()
 window.show()
 app.exec()
