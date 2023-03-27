@@ -69,16 +69,14 @@ class MainWindow(QMainWindow):
         layout_language.addWidget(self.button_language)
 
         """Поле с исходным текстом"""
-        self.input_field = QPlainTextEdit(self)
-        # self.input_field.setFont(QFont(self.families[0]))
-        
+        self.input_field = QPlainTextEdit(self)        
         self.input_field.setFont(QFont(self.families[0]))
         self.input_field.textChanged.connect(self.getText)
         
 
         """Поле с переведенным текстом"""
         self.output_field = QPlainTextEdit(self)
-        # self.output_field.setFont(QFont(self.families[0]))
+        self.output_field.setFont(QFont(self.families[0]))
         self.output_field.setReadOnly(True)
 
 
